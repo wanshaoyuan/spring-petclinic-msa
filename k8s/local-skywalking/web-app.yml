@@ -13,28 +13,28 @@ spec:
         app: web
     spec:
       initContainers:
-        - image: spring2go/skywalking-agent-sidecar:6.6.0
+        - image: apache/skywalking-base:8.1.0-es7
           name: sw-agent-sidecar
           imagePullPolicy: IfNotPresent
           command: ["sh"]
           args:
             [
               "-c",
-              "mkdir -p /skywalking/agent && cp -r /usr/skywalking/agent/* /skywalking/agent",
+              "cp -r /skywalking/agent /sidecar",
             ]
           volumeMounts:
-            - mountPath: /skywalking/agent
+            - mountPath: /sidecar
               name: sw-agent
       containers:
         - name: web
           image: spring2go/spring-petclinic-web-app:1.0.0.RELEASE
           env:
             - name: JAVA_OPTS
-              value: -javaagent:/usr/skywalking/agent/skywalking-agent.jar
+              value: -javaagent:/sidecar/agent/skywalking-agent.jar
             - name: SW_AGENT_NAME
               value: petclinic-web
             - name: SW_AGENT_COLLECTOR_BACKEND_SERVICES
-              value: oap.skywalking:11800 # FQDN: servicename.namespacename.svc.cluster.local
+              value: skywalking-oap.defaul.svc.cluster.localt:11800 # FQDN: servicename.namespacename.svc.cluster.local
             - name: SERVER_PORT
               value: "8080"
             - name: VISITS_SERVICE_ENDPOINT
@@ -42,7 +42,7 @@ spec:
             - name: CUSTOMERS_SERVICE_ENDPOINT
               value: http://customers:8080
           volumeMounts:
-            - mountPath: /usr/skywalking/agent
+            - mountPath: /sidecar
               name: sw-agent
       volumes:
         - name: sw-agent
