@@ -34,7 +34,7 @@ spec:
             - name: SW_AGENT_NAME
               value: petclinic-web
             - name: SW_AGENT_COLLECTOR_BACKEND_SERVICES
-              value: skywalking-oap.defaul.svc.cluster.localt:11800 # FQDN: servicename.namespacename.svc.cluster.local
+              value: skywalking-oap.default:11800 # FQDN: servicename.namespacename.svc.cluster.local
             - name: SERVER_PORT
               value: "8080"
             - name: VISITS_SERVICE_ENDPOINT
