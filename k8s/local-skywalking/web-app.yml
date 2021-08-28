@@ -29,7 +29,7 @@ spec:
         - name: web
           image: spring2go/spring-petclinic-web-app:1.0.0.RELEASE
           env:
-            - name: JAVA_OPTS
+            - name: JAVA_TOOL_OPTIONS 
               value: -javaagent:/sidecar/agent/skywalking-agent.jar
             - name: SW_AGENT_NAME
               value: petclinic-web
